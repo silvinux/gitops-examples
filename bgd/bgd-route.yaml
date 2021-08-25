@@ -7,7 +7,7 @@ metadata:
   name: bgd
   namespace: bgd
 spec:
-  host: ""
+  host: "bgd-bgd.apps.caixatest.bcb3.sandbox1873.opentlc.com"
   port:
     targetPort: 8080
   to:
