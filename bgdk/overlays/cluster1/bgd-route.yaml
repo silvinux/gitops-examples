@@ -1,3 +1,3 @@
 - op: replace
   path: /spec/host
-  value: "http://bgd-bgd.apps.cluster1.bcb3.sandbox1873.opentlc.com/"
+  value: "bgd-bgd.apps.cluster1.bcb3.sandbox1873.opentlc.com"
