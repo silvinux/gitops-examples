@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+  name: guestbook-cli-wait
+spec:
+  template:
+    spec:
+      containers:
+        - image: quay.io/openshift/origin-cli:4.11
+          command:
+            - /bin/bash
+            - -c
+            - |
+              export HOME=/tmp/cli
+              echo ""
+              echo -n "Waiting for deployment"
+              sleep $SLEEP
+              ## Could also use `kubectl`
+              until oc rollout status deployment/frontend --timeout=30m -n guestbook 2>&1 >/dev/null
+              do
+                echo -n "."
+                sleep $SLEEP
+              done
+              echo -n -e "DONE\n"
+          imagePullPolicy: Always
+          name: oc-wait-container
+          env:
+          - name: SLEEP
+            value: "15"
+      dnsPolicy: ClusterFirst
+      restartPolicy: OnFailure
+      serviceAccountName: cli-job-sa
+      terminationGracePeriodSeconds: 90
